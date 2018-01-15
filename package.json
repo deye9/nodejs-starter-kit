@@ -4,10 +4,12 @@
   "description": "My Nodejs Starter Kit.",
   "scripts": {
     "security-check": "nsp check",
+    "lint:watch": "npm run lint -- --watch",
     "open:src": "babel-node buildScripts/srcServer.js",
+    "localtunnel": "lt --port 3000 --subdomain spyder",
     "prestart": "babel-node buildScripts/startMessage.js",
-    "localtunnel": "lt --port 3000 --subdomain gis",
-    "start": "npm-run-all --parallel security-check open:src localtunnel"
+    "lint": "esw webpack.config.* src buildScripts --color",
+    "start": "npm-run-all --parallel security-check open:src localtunnel lint:watch"
   },
   "author": "Adegbenga A. Adeye",
   "license": "MIT",
