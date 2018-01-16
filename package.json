@@ -6,20 +6,28 @@
     "security-check": "nsp check",
     "lint:watch": "npm run lint -- --watch",
     "test:watch": "npm run test -- --watch",
+    "prestart-mockapi": "npm run generate-mock-data",
     "open:src": "babel-node buildScripts/srcServer.js",
     "localtunnel": "lt --port 3000 --subdomain spyder",
     "prestart": "babel-node buildScripts/startMessage.js",
     "lint": "esw webpack.config.* src buildScripts --color",
-    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch",
-    "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.test.js\""
+    "generate-mock-data": "babel-node buildScripts/generateMockData",
+    "start-mockapi": "json-server --watch src/api/db.json --port 3001",
+    "test": "mocha --reporter progress buildScripts/testSetup.js \"src/**/*.test.js\"",
+    "start": "npm-run-all --parallel security-check open:src lint:watch test:watch start-mockapi",
+
+    "clean-dist": "rimraf ./dist && mkdir dist",
+    "prebuild": "npm-run-all clean-dist test lint",
+    "build": "babel-node buildScripts/build.js",
+    "postbuild": "babel-node buildScripts/distServer.js"
   },
   "author": "Adegbenga A. Adeye",
   "license": "MIT",
   "dependencies": {
-    "whatwg-fetch": "1.0.0"
+    "whatwg-fetch": "^1.1.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.16.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
     "babel-preset-env": "^1.6.1",
